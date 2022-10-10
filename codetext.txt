@@ -1,0 +1,118 @@
+#include <iostream>
+using namespace std;
+
+#define MAXSIZE 100
+#define OK 1
+#define OVERFLOW -2
+#define ERROR 0
+typedef int Status;
+typedef int ElemType;
+typedef struct
+{
+    ElemType *elem;
+    int length;
+}SqList;
+
+Status InitList(SqList &L)
+{
+    L.elem= new ElemType[MAXSIZE];
+    if(!L.elem)
+        exit(OVERFLOW);
+    L.elem[0]=3;
+    L.elem[1]=4;
+    L.elem[2]=5;
+    L.elem[3]=7;
+    L.elem[4]=9;
+    L.length=5;
+    return OK;
+}
+//插入
+Status ListInsert(SqList &L,ElemType e)
+{
+    int i,j,k;
+    L.length++;
+    for(i=L.length-1;i>0;i--)
+    {
+
+        if(e>=L.elem[i-1])
+        {
+            break;
+        }
+        L.elem[i]=L.elem[i-1];
+    }
+    L.elem[i]=e;
+
+    cout<<"输入成功"<<endl;
+    return OK;
+}
+
+//循环移
+Status circulate(SqList &L,int e)
+{
+    int a,k,i;
+    e=e%L.length;
+    for(k=0;k<e;k++)
+    {
+        a=L.elem[L.length-1];
+        for(i=L.length-1;i>0;i--)
+            L.elem[i]=L.elem[i-1];
+        L.elem[0]=a;
+    }
+    cout<<"移动成功"<<endl;
+    return OK;
+}
+//逆置
+Status reverseList(SqList &L)
+{
+    int a=L.length/2,i,temp;
+    for(i=0;i<a;i++)
+    {
+        temp=L.elem[i];
+        L.elem[i]=L.elem[L.length-i-1];
+        L.elem[L.length-i-1]=temp;
+    }
+   cout<<"逆置成功"<<endl;
+    return OK;
+}
+//输出
+Status output(SqList L)
+{
+    int i;
+    for(i=0;i<L.length;i++)
+        cout<<L.elem[i]<<" ";
+    return OK;
+}
+
+int main() {
+    int a;ElemType e,k;
+    SqList L;
+    InitList(L);
+    while(1)
+    {
+        cout<<"(1)插入\n(2)循环右移k位\n(3)逆置\n(4)输出\n";
+        cout<<"请输入操作序号：";
+        cin>>a;
+        if(a==1)
+        {
+            cout<<"请输入值：";
+            cin>>e;
+            ListInsert(L,e);
+        }
+        if(a==2)
+        {
+            cout<<"请输入k:";
+            cin>>k;
+            circulate(L,k);
+        }
+        if(a==3)
+        {
+            reverseList(L);
+        }
+        if(a==4)
+        {
+            output(L);
+        }
+    }
+    return 0;
+
+}
